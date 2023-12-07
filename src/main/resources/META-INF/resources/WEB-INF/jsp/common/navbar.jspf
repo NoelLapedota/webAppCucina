@@ -1,0 +1,53 @@
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Cucina italiana</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tutorial</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cucina regionale</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Video ricette</a>
+                </li>
+            </ul>
+
+            <!-- Pulsante menu mobile -->
+            <div class="ms-auto">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+                    <i class="md-28 material-icons md-menu"></i>
+                </button>
+            </div>
+
+            <!-- Motore di Ricerca & Logout -->
+   <div class="d-flex align-items-center">
+    <form:form class="form-inline my-2 my-lg-0" id="search" role="search" method="GET" action="/articoli/search" onsubmit="encodeFilter(event)">
+        <input type="text" onClick="this.select();" name="filtro" value="${filtro}" placeholder="Cerca..." class="form-control">
+        <button type="submit" class="btn btn-primary">Cerca</button>
+    </form:form>
+
+    <a class="btn btn-danger ms-2" href="/logout">Logout</a>
+</div>
+
+<!-- Script JavaScript per codificare il filtro -->
+<script>
+    function encodeFilter(event) {
+        var filtroInput = document.getElementsByName('filtro')[0];
+        filtroInput.value = encodeURIComponent(filtroInput.value);
+    }
+</script>
+
+</nav>
+
+ 
