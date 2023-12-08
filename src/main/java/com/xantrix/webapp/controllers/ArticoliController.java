@@ -4,6 +4,7 @@ import com.xantrix.webapp.dtos.ArticoliDto;
 import com.xantrix.webapp.services.ArticoliService;
 
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -20,11 +21,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@Log
+@Slf4j
 @Controller
 public class ArticoliController {
     private final ArticoliService articoliService;
-    private final Logger logger = LoggerFactory.getLogger(ArticoliController.class);
 
     public ArticoliController(ArticoliService articoliService) {
         this.articoliService = articoliService;
@@ -37,12 +37,12 @@ public class ArticoliController {
         List<ArticoliDto> articoli = articoliService.findAllArticle();
           model.addAttribute("articoli", articoli);
 
-            logger.info("");
         } catch (Exception e) {
-            logger.error("Errore durante la connessione al database", e);
+            log.error("Errore durante la connessione al database", e);
         }
         return "articoli";
     }
+    
     
 	@GetMapping(value = "/elimina/{codart}")
 	public String DelArticolo(@PathVariable("codart") String codart, ModelMap model)
@@ -68,14 +68,17 @@ public class ArticoliController {
 		List<ArticoliDto> articoli = articoliService.SelByDescrizione(filter,0,10);
 		
 		model.addAttribute("articoli", articoli);
-		System.out.println(articoli );
+		
+		log.info("Trovati questi articoli "+  articoli );
+		
 		return "articoli";
 		
 	}
 
 
     @GetMapping(value = "articoli/search", produces = "text/html;charset=UTF-8")
-    public String searchItem(@RequestParam("filtro") String filtro, @RequestParam(required = false, defaultValue = "10") String selected, ModelMap model) {
+    public String searchItem(@RequestParam("filtro") String filtro, @RequestParam(required = false, defaultValue = "10") String selected, ModelMap model) 
+       {
         try {
             // Decodifica il parametro filtro
             String filtroDecoded = URLDecoder.decode(filtro, StandardCharsets.UTF_8.toString());
@@ -85,8 +88,8 @@ public class ArticoliController {
 
             List<ArticoliDto> articoli = articoliService.findBySerch(filtroDecoded);
 
-            System.out.println(articoli);
-
+            log.info("Trovati questi articoli "+  articoli );
+            
             if (articoli.isEmpty()) {
                 articoli = articoliService.findByDescrizione(filtroDecoded);
                 
@@ -94,11 +97,12 @@ public class ArticoliController {
 
             model.addAttribute("articoli", articoli);
             return "articoli";
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("Errore durante la connessione al database", e);
+        }
             return "errore";
         }
     }
 
 
-}
+

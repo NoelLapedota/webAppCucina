@@ -25,7 +25,7 @@ public class IndexController
 	public String getWelcome2(Model model,  @PathVariable("name") String name)
 	{
 		model.addAttribute("userName", name);
-		model.addAttribute("intestazione", String.format("Benvenuto %s nella index page della webapp AlphaShop", name));
+		model.addAttribute("intestazione", String.format("Benvenuto %s nella index pagedi Cucina Italiana", name));
 		model.addAttribute("saluti", saluti);
 		
 		return "index";
@@ -37,7 +37,7 @@ public class IndexController
 	{
 		log.info("Valore del Cookie: " + name);
 		model.addAttribute("userName", name);
-		model.addAttribute("intestazione", String.format("Benvenuto %s nella index page della webapp AlphaShop", name));
+		model.addAttribute("intestazione", String.format("Benvenuto %s nella index pagedi Cucina Italiana", name));
 		model.addAttribute("saluti", saluti);
 		
 		return "index";
